@@ -5,4 +5,5 @@ set(CMAKE_CXX_STANDARD 14)
 
 add_executable(MatchingEngine
     main.cpp
-        OrderTypes.h)
+        OrderTypes.h
+        Order.h)
