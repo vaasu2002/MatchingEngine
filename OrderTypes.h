@@ -12,22 +12,33 @@
 #include <memory>
 #include <chrono>
 
-namespace OrderEngine::Base
+namespace OrderEngine
 {
-    using Price = int64_t; // Price in the smallest currency unit
-    using Quantity = uint64_t;
-    using OrderId = uint64_t;
-    using Symbol = std::string;
-    using Timestamp = std::chrono::high_resolution_clock::time_point;
-
-    /*
-     * Represents which side of financial order the trade is on
-    */
-    enum class OrderSide:char
+    namespace Base
     {
-        BUY = 'B',
-        SELL = 'S'
-    };
+        using Price = int64_t; // Price in the smallest currency unit
+        using Quantity = uint64_t;
+        using OrderId = uint64_t;
+        using Symbol = std::string;
+        using Timestamp = std::chrono::high_resolution_clock::time_point;
 
+        /*
+         * Represents which side of financial order the trade is on
+        */
+        enum class OrderSide:char
+        {
+            BUY = 'B',
+            SELL = 'S'
+        };
+        enum class OrderStatus:char
+        {
+            PENDING = 'P',
+            ACCEPTED = 'A',
+            PARTIALLY_FILLED = 'F',
+            FILLED = 'C',
+            REJECTED = 'R',
+            REPLACED = 'E'
+        };
+    }
 }
 #endif // ORDER_TYPES_H
