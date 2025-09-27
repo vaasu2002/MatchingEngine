@@ -6,4 +6,6 @@ set(CMAKE_CXX_STANDARD 14)
 add_executable(MatchingEngine
     main.cpp
         OrderTypes.h
-        Order.h)
+        Order.h
+        OrderTracker/PriceTracker.cpp
+        OrderTracker/PriceTracker.h)
