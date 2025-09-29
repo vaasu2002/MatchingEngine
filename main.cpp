@@ -11,9 +11,14 @@ int main()
     const OrderEngine::Base::OrderId id = 5;
     OrderEngine::Base::Symbol symbol = "find";
     OrderEngine::Base::Quantity q = 5000;
-    const OrderEngine::Order* order = new OrderEngine::Order(id,symbol,side,q,price);
+    OrderEngine::Order* order = new OrderEngine::Order(id,symbol,side,q,price);
     std::cout<<"Printing: "<<order->ToString()<<std::endl;
 
     OrderEngine::PriceTracker<OrderEngine::Order*> priceTracker(price);
+    auto orderIterator = priceTracker.AddOrder(order);
+    std::cout<<priceTracker.GetOrderCount()<<std::endl;
+    std::cout<<priceTracker.GetPrice()<<std::endl;
+    priceTracker.RemoveOrder(orderIterator);
+    std::cout<<priceTracker.GetOrderCount()<<std::endl;
     return 0;
 }
