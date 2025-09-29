@@ -51,9 +51,24 @@ namespace OrderEngine
             return mOpenQty;
         }
 
+        void SetOpenQuantity(Base::Quantity openQty)
+        {
+            mOpenQty = openQty;
+        }
+
         Base::Price GetPrice() const
         {
             return mPrice;
+        }
+
+        Base::OrderStatus GetOrderStatus()
+        {
+            return mStatus;
+        }
+
+        void SetOrderStatus(Base::OrderStatus orderStatus)
+        {
+            mStatus = orderStatus;
         }
 
         std::string ToString() const
