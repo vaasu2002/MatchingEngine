@@ -54,7 +54,10 @@ namespace OrderEngine
 
         void UpdateQuantity(const OrderPtr& order, Base::Quantity oldQty, Base::Quantity newQty);
 
+        // Get the first order in the list (FIFO)
         OrderPtr FrontOrder() const;
+
+        Base::Quantity FillQuantity(Base::Quantity maxQty);
     };
 
     class Order; // forward declare
