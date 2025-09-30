@@ -3,6 +3,7 @@
 #include "Order.h"
 #include "OrderTypes.h"
 #include "OrderTracker/PriceTracker.h"
+#include "OrderTracker/OrderTracker.h"
 
 int main()
 {
@@ -53,5 +54,9 @@ int main()
     std::cout<<"[ACTION]: Removing the current order"<<std::endl;
     priceTracker.RemoveOrder(orderIterator);
     std::cout<<"[Order:OrderCount] "<<priceTracker.GetOrderCount()<<std::endl;
+
+
+    OrderEngine::OrderTracker<OrderEngine::Order*> orderTrackerBuySide(true);
+    orderTrackerBuySide.AddOrder(order);
     return 0;
 }
