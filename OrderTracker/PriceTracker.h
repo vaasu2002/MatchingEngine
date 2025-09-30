@@ -3,6 +3,8 @@
 #define PRICE_TRACKER_H
 
 #include <vector>
+#include <map>
+#include <memory>
 #include "../OrderTypes.h"
 
 namespace OrderEngine
