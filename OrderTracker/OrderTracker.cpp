@@ -62,6 +62,41 @@ namespace OrderEngine{
         return newPriceTracker;
     }
 
+    template <typename OrderPtr>
+    std::vector<std::pair<OrderPtr, Base::Quantity>> OrderTracker<OrderPtr>::MatchQuantity(Base::Price limitPrice, Base::Quantity maxQty)
+    {
+        std::vector<std::pair<OrderPtr, Base::Quantity>> matches;
+        Base::Quantity remaining = maxQty;
+
+        auto it = mPriceTrackerMap.begin();
+        while (it != mPriceTrackerMap.end() && remaining > 0) {
+            Base::Price level_price = it->first;
+
+            // Check if this price level can match
+            bool can_match = mIsBuySide ? (level_price >= limitPrice) : (level_price <= limitPrice);
+            if (!can_match) break;
+
+            auto level = it->second;
+            auto& orders = level->GetOrders();
+            auto order_it = orders.begin();
+
+            while (order_it != orders.end() && remaining > 0) {
+                auto order = *order_it;
+                Base::Quantity available = order->GetOpenQuantity();
+                Base::Quantity matchQty = std::min(available, remaining);
+
+                matches.emplace_back(order, matchQty);
+                remaining -= matchQty;
+
+                ++order_it;
+            }
+
+            ++it;
+        }
+
+        return matches;
+    }
+
     // Explicit template instantiation
     template class OrderTracker<Order*>;
 } // namespace OrderEngine

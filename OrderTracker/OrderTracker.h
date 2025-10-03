@@ -74,6 +74,8 @@ namespace OrderEngine{
         
         // Add an order to the tracker
         void AddOrder(OrderPtr order);
+
+        std::vector<std::pair<OrderPtr, Base::Quantity>> MatchQuantity(Base::Price limitPrice, Base::Quantity maxQty);
     private:
         PriceTrackerMap mPriceTrackerMap;
         OrderLocationMap mOrderLocationMap;
