@@ -84,6 +84,17 @@ namespace OrderEngine
         {
             return mStopPrice;
         }
+
+        void SetType(Base::OrderType orderType)
+        {
+            mType = orderType;
+        }
+
+        Base::OrderType GetType() const
+        {
+            return mOrderType;
+        }
+        
         std::string ToString() const
         {
             std::ostringstream oss;
@@ -101,7 +112,7 @@ namespace OrderEngine
             return oss.str();
         }
 
-        bool iSBuy() const { return GetSide() == Base::OrderSide::BUY; }
+        bool isBuy() const { return GetSide() == Base::OrderSide::BUY; }
         bool isSell() const { return GetSide() == Base::OrderSide::SELL; }
         bool isMarket() const { return GetOrderType() == Base::OrderType::MARKET; }
         bool isLimit() const { return GetOrderType() == Base::OrderType::LIMIT; }
@@ -122,6 +133,8 @@ namespace OrderEngine
         Base::OrderStatus mStatus;
         Base::Timestamp mCreatedAt;
         Base::Price mStopPrice;
+        Base::OrderType mOrderType;
+        
         static std::string OrderSideToString(Base::OrderSide side)
         {
             switch (side)
