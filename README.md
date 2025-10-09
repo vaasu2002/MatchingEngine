@@ -5,5 +5,5 @@ Order matching engine is a software responsible for instantly pairing buyers and
 ```cpp
 cmake -S . -B build
 cmake --build build
-./build/AuthenticationService
+./build/MatchOrder
 ```
