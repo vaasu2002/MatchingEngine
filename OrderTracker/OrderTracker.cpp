@@ -62,6 +62,57 @@ namespace OrderEngine{
         return newPriceTracker;
     }
 
+
+    template <typename OrderPtr>
+    void OrderTracker<OrderPtr>::RemoveOrder(OrderPtr order)
+    {
+        if (!order)
+        {
+            // todo: log error
+            return;
+        }
+
+        Base::OrderId orderId = order->GetId();
+        // Find the order's location in the cache
+        auto locationIt = mOrderLocationMap.find(orderId);
+
+        if (locationIt == mOrderLocationMap.end())
+        {
+            // Order not found in tracker
+            // todo: log warning - trying to remove a non-existent order
+            return;
+        }
+        // Extract price and order iterator from the cached location
+        Base::Price price = locationIt->second.first;
+        auto orderIterator = locationIt->second.second;
+
+        // Find the PriceTracker at this price level
+        auto priceTrackerIt = mPriceTrackerMap.find(price);
+        mOrderLocationMap.erase(locationIt);
+
+        if (priceTrackerIt == mPriceTrackerMap.end())
+        {
+            // Price level not found (should never happen if cache is consistent)
+            // todo: log error - inconsistent state
+            mOrderLocationMap.erase(locationIt);
+            return;
+        }
+
+        PriceTrackerPtr priceTracker = priceTrackerIt->second;
+
+        // Remove the order from the PriceTracker's order list
+        priceTracker->RemoveOrder(orderIterator);
+
+        // Remove from location cache
+        mOrderLocationMap.erase(locationIt);
+
+        // 
+        if (priceTracker->IsEmpty())
+        {
+            mPriceTrackerMap.erase(priceTrackerIt);
+        }
+    }
+
     template <typename OrderPtr>
     std::vector<std::pair<OrderPtr, Base::Quantity>> OrderTracker<OrderPtr>::MatchQuantity(Base::Price limitPrice, Base::Quantity maxQty)
     {
@@ -97,6 +148,65 @@ namespace OrderEngine{
         return matches;
     }
 
+
+    template <typename OrderPtr>
+    void OrderTracker<OrderPtr>::UpdateOrderQuantity(OrderPtr order, Base::Quantity newQty)
+    {
+        if (!order) {
+            // todo: log error
+            return;
+        }
+
+        Base::OrderId orderId = order->GetId();
+        // Find the order's location in the cache
+        auto locationIt = mOrderLocationMap.find(orderId);
+
+        if (locationIt == mOrderLocationMap.end()) {
+            // Order not found in tracker
+            // todo: log warning - trying to update non-existent order
+            return;
+        }
+
+        // Extract price and order iterator from the cached location
+        Base::Price price = locationIt->second.first;
+        auto orderIterator = locationIt->second.second;
+
+        // Find the PriceTracker at this price level
+        auto priceTrackerIt = mPriceTrackerMap.find(price);
+
+        if (priceTrackerIt == mPriceTrackerMap.end()) {
+            // Price level not found (should never happen if cache is consistent)
+            // todo: log error - inconsistent state
+            mOrderLocationMap.erase(locationIt);
+            return;
+        }   
+
+        PriceTrackerPtr priceTracker = priceTrackerIt->second;
+
+        // Update the order's quantity
+        order->SetOpenQuantity(newQty);
+
+        if (newQty == 0) {
+            // Remove from PriceTracker
+            priceTracker->RemoveOrder(orderIterator);
+            
+            // Remove from location cache
+            mOrderLocationMap.erase(locationIt);
+            
+            // If PriceTracker is now empty, remove it from the map
+            if (priceTracker->IsEmpty()) {
+                mPriceTrackerMap.erase(priceTrackerIt);
+            }
+            
+            std::cout << "[INFO][OrderTracker][UpdateOrderQuantity]: Order " << orderId 
+                    << " removed (qty=0)" << std::endl;
+        } 
+        else {
+            // Just log the update
+            std::cout << "[INFO][OrderTracker][UpdateOrderQuantity]: Order " << orderId 
+                    << " updated to qty=" << newQty << std::endl;
+        }
+    }
     // Explicit template instantiation
     template class OrderTracker<Order*>;
 } // namespace OrderEngine
