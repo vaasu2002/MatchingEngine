@@ -9,66 +9,6 @@
 int main() {
     using namespace OrderEngine;
 
-    {
-        Base::Price price = 100;
-        Base::Price stopPrice = 100;
-        const Base::OrderSide side = Base::OrderSide::BUY;
-        const Base::OrderId id = 5;
-        Base::Symbol symbol = "find";
-        Base::Quantity qty = 5000;
-
-        Order* order = new Order(id,symbol,side,qty,price,stopPrice);
-        std::cout << "Printing [Order]: " << order->ToString() << std::endl;
-
-        delete order;
-    }
-
-    {
-        Base::Price price = 100;
-        Base::Price stopPrice = 100;
-        Base::OrderSide side = Base::OrderSide::BUY;
-        Base::OrderId id = 6;
-        Base::Symbol symbol = "find";
-        Base::Quantity qty = 5000;
-
-        Order* order = new Order(id, symbol, side, qty, price,stopPrice);
-
-        PriceTracker<Order*> priceTracker(price);
-        auto it = priceTracker.AddOrder(order);
-        std::cout << "[PriceTracker] TotalQuantity: " << priceTracker.GetTotalQuantity() << "\n";
-        std::cout << "[PriceTracker] OrderCount:    " << priceTracker.GetOrderCount()   << "\n";
-        std::cout << "[PriceTracker] Price:         " << priceTracker.GetPrice()        << "\n";
-
-        std::cout << "[ACTION] Filling 4000 shares from the order\n";
-        priceTracker.FillQuantity(4000);
-
-        std::cout << "[PriceTracker] TotalQuantity: " << priceTracker.GetTotalQuantity() << "\n";
-        std::cout << "[PriceTracker] OrderCount:    " << priceTracker.GetOrderCount()   << "\n";
-        std::cout << "[PriceTracker] Price:         " << priceTracker.GetPrice()        << "\n";
-
-        std::cout << "[ACTION] Removing the current order\n";
-        priceTracker.RemoveOrder(it);
-        std::cout << "[PriceTracker] OrderCount:    " << priceTracker.GetOrderCount()   << "\n";
-
-        delete order;
-    }
-
-    // ---------- OrderTracker quick exercise ----------
-    {
-        Base::Price price = 99;
-        Base::Price stopPrice = 100;
-        Base::OrderSide side = Base::OrderSide::BUY;
-        Base::OrderId id = 7;
-        Base::Symbol symbol = "find";
-        Base::Quantity qty = 1000;
-
-        Order* order = new Order(id, symbol, side, qty, price,stopPrice);
-        OrderTracker<Order*> orderTrackerBuySide(/*isBuySide=*/true);
-        orderTrackerBuySide.AddOrder(order);
-
-        delete order;
-    }
-
     // ---------- OrderBook: seed a resting ASK and hit it with a MARKET BUY ----------
     {
         Base::Symbol symbol = "find";
