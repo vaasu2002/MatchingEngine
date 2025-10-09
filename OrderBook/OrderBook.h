@@ -112,6 +112,10 @@ namespace OrderEngine {
         bool processMarketOrder(const OrderPtr& inBoundOrderPtr, Base::OrderConditions conditions);
         bool matchMarketBuyOrder(const OrderPtr& order, Base::OrderConditions conditions);
         bool matchBuyOrder(const OrderPtr& inBoundOrderPtr, Base::OrderConditions conditions, Base::Price limitPrice);
+        bool matchMarketSellOrder(const OrderPtr& order, Base::OrderConditions conditions);
+        bool matchSellOrder(const OrderPtr& inBoundOrderPtr, Base::OrderConditions conditions, Base::Price limitPrice);
+        void addRestingOrder(const OrderPtr& order);
+        bool processLimitOrder(const OrderPtr& inBoundOrderPtr, const Base::OrderConditions conditions);
         void executeTrade(const OrderPtr& inBoundOrderPtr, const OrderPtr& restingOrderPtr, Base::Quantity quantity, Base::Price price);
         static bool IsAllOrNone(Base::OrderConditions conditions);
         static bool isImmediateOrCancel(Base::OrderConditions conditions);
