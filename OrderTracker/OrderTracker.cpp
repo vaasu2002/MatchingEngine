@@ -88,7 +88,6 @@ namespace OrderEngine{
 
         // Find the PriceTracker at this price level
         auto priceTrackerIt = mPriceTrackerMap.find(price);
-        mOrderLocationMap.erase(locationIt);
 
         if (priceTrackerIt == mPriceTrackerMap.end())
         {

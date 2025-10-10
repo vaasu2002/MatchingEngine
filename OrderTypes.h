@@ -45,7 +45,8 @@ namespace OrderEngine
             PARTIALLY_FILLED = 'F',
             FILLED = 'C',
             REJECTED = 'R',
-            REPLACED = 'E', CANCELLED
+            REPLACED = 'E',
+            CANCELLED = 'X'
         };
 
         /* Bitmask flags describing the characteristics of a trade fill.

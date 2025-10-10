@@ -30,7 +30,7 @@ namespace OrderEngine{
     template<typename OrderPtr> class OrderTracker
     {
     public:
-    using PriceTrackerPtr = std::shared_ptr<PriceTracker<OrderPtr>>;
+    using PriceTrackerPtr = std::shared_ptr<PriceTracker<OrderPtr> >;
 
         /**
         * @brief Custom comparator for price-based map ordering

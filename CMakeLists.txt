@@ -11,6 +11,5 @@ add_executable(MatchingEngine
         OrderTracker/OrderTracker.cpp
         OrderTracker/OrderTracker.h
         OrderBook/OrderBook.h
-        OrderBook/OrderBook.cpp         # keep header listed is okay
-        # OrderBook/OrderBook.cpp     # <-- REMOVE this
+        OrderBook/OrderBook.cpp
 )

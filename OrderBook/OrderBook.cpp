@@ -271,6 +271,7 @@ namespace OrderEngine {
         {
             restingOrderPtr->SetOrderStatus(Base::OrderStatus::PARTIALLY_FILLED);
 
+            // Update the order quantity in the tracker
             if(restingOrderPtr->isBuy())
             {
                 mBidTracker.UpdateOrderQuantity(restingOrderPtr, restingRemainingQty);

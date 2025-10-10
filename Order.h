@@ -92,7 +92,7 @@ namespace OrderEngine
 
         Base::OrderType GetType() const
         {
-            return mOrderType;
+            return mType;
         }
         
         std::string ToString() const
@@ -133,7 +133,6 @@ namespace OrderEngine
         Base::OrderStatus mStatus;
         Base::Timestamp mCreatedAt;
         Base::Price mStopPrice;
-        Base::OrderType mOrderType;
         
         static std::string OrderSideToString(Base::OrderSide side)
         {
@@ -155,6 +154,7 @@ namespace OrderEngine
             case Base::OrderStatus::REJECTED: return "REJECTED";
             case Base::OrderStatus::REPLACED: return "REPLACED";
             case Base::OrderStatus::PARTIALLY_FILLED: return "PARTIALLY_FILLED";
+            case Base::OrderStatus::CANCELLED: return "CANCELLED";
             default: return "UNKNOWN";
             }
         }
